@@ -1,6 +1,7 @@
 const MIN_RATE = 0.25;
 const MAX_RATE = 3.0;
 const STEP = 0.25;
+const SLIDER_STEP = 0.1;
 const DEFAULT_RATE = 1.0;
 const STORAGE_KEY = "playbackRate";
 
@@ -12,6 +13,10 @@ const resetBtn = document.getElementById("reset");
 
 function clampRate(rate) {
     return Math.min(MAX_RATE, Math.max(MIN_RATE, Number(rate)));
+}
+
+function snapRate(rate) {
+    return clampRate(Math.round(Number(rate) / SLIDER_STEP) * SLIDER_STEP);
 }
 
 function formatRate(rate) {
@@ -26,7 +31,7 @@ function updateLabel(rate) {
 }
 
 function syncUI(rate) {
-    slider.value = rate;
+    slider.value = snapRate(rate);
     updateLabel(rate);
 }
 
@@ -51,7 +56,7 @@ slider.addEventListener("input", () => {
 });
 
 slider.addEventListener("change", () => {
-    updateRate(Number(slider.value));
+    updateRate(snapRate(slider.value));
 });
 
 decreaseBtn.addEventListener("click", () => {
