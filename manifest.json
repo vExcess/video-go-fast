@@ -1,0 +1,47 @@
+{
+  "manifest_version": 3,
+  "name": "Video Go Fast",
+  "description": "Watch videos at 3x speed. No spyware. No adware.",
+  "version": "1.0.0",
+  "icons": {
+    "128": "images/icon-128.png"
+  },
+  "action": {
+    "default_icon": "images/icon-128.png",
+    "default_popup": "popup.html",
+    "default_title": "Video Go Fast"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["storage"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "all_frames": true
+    }
+  ],
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y",
+        "mac": "Alt+Y"
+      }
+    },
+    "left": {
+      "description": "Decrease Speed",
+      "suggested_key": {
+        "default": "Ctrl+Shift+Left",
+        "mac": "Command+Shift+Left"
+      }
+    },
+    "right": {
+      "description": "Increase Speed",
+      "suggested_key": {
+        "default": "Ctrl+Shift+Right",
+        "mac": "Command+Shift+Right"
+      }
+    }
+  }
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Video Go Fast</title>
+    <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+    <header class="header">
+        <img src="images/icon-128.png" alt="" class="icon" width="32" height="32" />
+        <h1>Video Go Fast</h1>
+    </header>
+
+    <div class="controls">
+    <button id="decrease" type="button" aria-label="Decrease speed">−</button>
+
+    <div class="slider-wrap">
+        <div class="rate-label" id="rateLabel">1.00x</div>
+        <input
+            id="slider"
+            type="range"
+            min="0.25"
+            max="3"
+            step="0.01"
+            value="1"
+        />
+    </div>
+
+    <button id="increase" type="button" aria-label="Increase speed">+</button>
+    </div>
+
+    <button id="reset" type="button">Reset</button>
+
+    <script src="popup.js"></script>
+</body>
+</html>
