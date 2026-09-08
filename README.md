@@ -1,5 +1,7 @@
 # Video Go Fast
 
+![logo](https://github.com/vExcess/video-go-fast/blob/main/images/icon-128.png?raw=true)
+
 A minimal Chrome extension that controls HTML5 video playback speed from 0.25x to 3.00x.
 
 Watch videos at 3x speed. No spyware. No adware.
