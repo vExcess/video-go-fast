@@ -1,7 +1,7 @@
 const MIN_RATE = 0.25;
 const MAX_RATE = 3.0;
 const STEP = 0.25;
-const SLIDER_STEP = 0.1;
+const SLIDER_STEP = 0.05;
 const DEFAULT_RATE = 1.0;
 const STORAGE_KEY = "playbackRate";
 
