@@ -30,8 +30,18 @@ function isInjectableUrl(url) {
     return Boolean(url && !INTERNAL_PAGE.test(url));
 }
 
-function applyRateToTab(tabId, rate) {
-    chrome.tabs.sendMessage(tabId, { type: "SET_PLAYBACK_RATE", rate }).catch(() => {});
+async function applyRateToTab(tabId, rate) {
+    for (let attempt = 0; attempt < 5; attempt++) {
+        try {
+            await chrome.tabs.sendMessage(tabId, {
+                type: "SET_PLAYBACK_RATE",
+                rate,
+            });
+            return;
+        } catch {
+            await new Promise((resolve) => setTimeout(resolve, 50 * (attempt + 1)));
+        }
+    }
 }
 
 async function applyRateToActiveTab(rate) {

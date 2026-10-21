@@ -3,8 +3,24 @@ const DEFAULT_RATE = 1.0;
 
 let currentRate = DEFAULT_RATE;
 
+function enforceRate(video) {
+    if (video.playbackRate !== currentRate) {
+        video.playbackRate = currentRate;
+    }
+}
+
+function bindVideo(video) {
+    if (video.dataset.vgfBound) return;
+    video.dataset.vgfBound = "1";
+
+    video.addEventListener("play", () => enforceRate(video));
+    video.addEventListener("loadedmetadata", () => enforceRate(video));
+    video.addEventListener("ratechange", () => enforceRate(video));
+}
+
 function applyToVideos(rate) {
     document.querySelectorAll("video").forEach((video) => {
+        bindVideo(video);
         video.playbackRate = rate;
     });
 }
@@ -25,6 +41,8 @@ function loadStoredRate() {
         const stored = result[STORAGE_KEY];
         if (stored !== undefined) {
             setRate(stored);
+        } else {
+            applyToVideos(currentRate);
         }
     });
 }
@@ -36,15 +54,23 @@ chrome.storage.onChanged.addListener((changes, area) => {
     setRate(changes[STORAGE_KEY].newValue);
 });
 
+function handleAddedNode(node) {
+    if (node.nodeName === "VIDEO") {
+        bindVideo(node);
+        node.playbackRate = currentRate;
+    } else if (node.querySelectorAll) {
+        node.querySelectorAll("video").forEach((video) => {
+            bindVideo(video);
+            video.playbackRate = currentRate;
+        });
+    }
+}
+
 const observer = new MutationObserver((mutations) => {
     for (const mutation of mutations) {
         for (const node of mutation.addedNodes) {
-            if (node.nodeName === "VIDEO") {
-                node.playbackRate = currentRate;
-            } else if (node.querySelectorAll) {
-                node.querySelectorAll("video").forEach((video) => {
-                    video.playbackRate = currentRate;
-                });
+            if (node.nodeType === Node.ELEMENT_NODE) {
+                handleAddedNode(node);
             }
         }
     }
